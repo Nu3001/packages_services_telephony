@@ -40,6 +40,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.content.ComponentName;
 
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
@@ -77,6 +78,8 @@ public class OutgoingCallBroadcaster extends Activity
     public static final String EXTRA_SIP_PHONE_URI = "android.phone.extra.SIP_PHONE_URI";
     public static final String EXTRA_ACTUAL_NUMBER_TO_DIAL =
             "android.phone.extra.ACTUAL_NUMBER_TO_DIAL";
+    public final static String ACTION_CALL_DIAL = "android.intent.action.BONOVO_CALL_DIAL";
+    public final static String KEY_PHONE_NUMBER = "phone_number"; 
 
     /**
      * Identifier for intent extra for sending an empty Flash message for
@@ -181,6 +184,27 @@ public class OutgoingCallBroadcaster extends Activity
 
             number = getResultData();
             if (VDBG) Log.v(TAG, "- got number from resultData: '" + number + "'");
+		//ComponentName componetName = new ComponentName(  
+		//This is another application package name 
+		//"com.bonovo.bluetooth",  
+		//This parameter is to start the Activity
+		//"com.bonovo.bluetooth.BonovoBluetoothHandfree");  
+		try {  
+			//Intent intent2 = new Intent();
+			//Log.v("ccc", "string nub:="+number); 
+			//Bundle bundle = new Bundle();
+			//bundle.putString("NUMBAR", number);					
+			//intent.putExtras(bundle);//Data binding bundles
+			//intent.setComponent(componetName); 
+			//startActivity(intent);
+			Intent myIntent = new Intent(ACTION_CALL_DIAL);
+			myIntent.putExtra(KEY_PHONE_NUMBER, number);
+			sendBroadcast(myIntent);
+			return false;
+		} catch (Exception e) {
+				e.printStackTrace();
+					
+		}
 
             final PhoneGlobals app = PhoneGlobals.getInstance();
 
